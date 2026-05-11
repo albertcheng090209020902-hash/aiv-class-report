@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelGo 旅遊訂房網站</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 全域設定 */
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      /* 關鍵：解決固定選單遮擋標題的問題，數值依導覽列高度調整 */
+      scroll-padding-top: 80px; 
+    }
+
+    body{
+      font-family:'Noto Sans TC', sans-serif;
+      background:#f5f7fa;
+      color:#333;
+      line-height: 1.6;
+    }
+
+    /* 導覽列 */
+    nav{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:15px 60px; /* 稍微縮小一點高度 */
+      background:rgba(0,0,0,0.6); /* 稍微加深透明度增加文字可讀性 */
+      backdrop-filter:blur(10px);
+      z-index:1000;
+    }
+
+    nav h1{
+      color:white;
+      font-size:24px;
+      letter-spacing: 2px;
+    }
+
+    nav ul{
+      display:flex;
+      gap:30px;
+      list-style:none;
+    }
+
+    nav a{
+      color:white;
+      text-decoration:none;
+      transition:0.3s;
+      font-weight: 500;
+    }
+
+    nav a:hover{
+      color:#87cefa;
+    }
+
+    /* 首頁 Hero Section */
+    .hero{
+      height:100vh;
+      background:
+      linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+      url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1800&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      color:white;
+      padding:20px;
+    }
+
+    .hero-content h2{
+      font-size:clamp(32px, 8vw, 64px); /* 自適應字體大小 */
+      margin-bottom:20px;
+    }
+
+    .hero-content p{
+      font-size:clamp(18px, 3vw, 22px);
+      margin-bottom:35px;
+      opacity: 0.9;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:15px 40px;
+      background:#1e90ff;
+      color:white;
+      text-decoration:none;
+      border-radius:40px;
+      transition:0.3s;
+      font-weight: bold;
+    }
+
+    .btn:hover{
+      background:#187bdb;
+      transform:translateY(-3px);
+      box-shadow: 0 5px 15px rgba(30,144,255,0.4);
+    }
+
+    /* 通用區塊 */
+    section{
+      padding:100px 10%;
+    }
+
+    .title{
+      text-align:center;
+      margin-bottom:60px;
+    }
+
+    .title h3{
+      font-size:36px;
+      margin-bottom:15px;
+      color:#0f172a;
+    }
+
+    .title p{
+      color:#666;
+    }
+
+    /* 卡片設計 */
+    .card-container{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:30px;
+    }
+
+    .card{
+      background:white;
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,0.05);
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .card img{
+      width:100%;
+      height:240px;
+      object-fit:cover;
+    }
+
+    .card-content{
+      padding:25px;
+    }
+
+    .card-content h4{
+      font-size:22px;
+      margin-bottom:10px;
+    }
+
+    .card-content p{
+      color:#666;
+      font-size: 15px;
+    }
+
+    /* 訂房區塊 */
+    #booking {
+        padding-bottom: 120px;
+    }
+
+    .booking-banner{
+      background:#0f172a;
+      color:white;
+      text-align:center;
+      border-radius:30px;
+      padding:80px 40px;
+    }
+
+    .booking-banner h3{
+      font-size:36px;
+      margin-bottom:20px;
+    }
+
+    .booking-banner p{
+      margin-bottom:30px;
+      color:#d1d5db;
+    }
+
+    /* Footer */
+    footer{
+      background:#020617;
+      color:#888;
+      text-align:center;
+      padding:40px;
+      font-size: 14px;
+    }
+
+    /* 手機版適應 */
+    @media(max-width:768px){
+      nav{
+        padding:15px 20px;
+      }
+      nav ul{
+        gap:15px;
+        font-size: 14px;
+      }
+      section {
+        padding: 60px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <h1>TravelGo</h1>
+    <ul>
+      <li><a href="#destinations">景點</a></li>
+      <li><a href="#rooms">房型</a></li>
+      <li><a href="#booking">訂房</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2>探索你的夢想旅程</h2>
+      <p>享受最舒適的住宿與最美好的旅行體驗</p>
+      <a href="#booking" class="btn">立即訂房</a>
+    </div>
+  </section>
+
+  <section id="destinations">
+    <div class="title">
+      <h3>熱門旅遊景點</h3>
+      <p>探索世界最受歡迎的旅遊地點</p>
+    </div>
+    <div class="card-container">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1200&auto=format&fit=crop" alt="馬爾地夫海景">
+        <div class="card-content">
+          <h4>馬爾地夫</h4>
+          <p>清澈海水與夢幻海景，享受最放鬆的度假時光。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=1200&auto=format&fit=crop" alt="東京街景">
+        <div class="card-content">
+          <h4>日本東京</h4>
+          <p>結合現代城市與傳統文化，感受東京的獨特魅力。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop" alt="巴黎艾菲爾鐵塔">
+        <div class="card-content">
+          <h4>法國巴黎</h4>
+          <p>浪漫街景與經典建築，帶來最難忘的旅行回憶。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rooms">
+    <div class="title">
+      <h3>精選房型</h3>
+      <p>舒適、高級、放鬆的住宿空間</p>
+    </div>
+    <div class="card-container">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop" alt="海景雙人房">
+        <div class="card-content">
+          <h4>海景雙人房</h4>
+          <p>擁有絕美海景與舒適空間，適合情侶與度假旅客。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200&auto=format&fit=crop" alt="豪華家庭房">
+        <div class="card-content">
+          <h4>豪華家庭房</h4>
+          <p>寬敞舒適的空間設計，適合家庭與多人入住。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop" alt="五星度假套房">
+        <div class="card-content">
+          <h4>五星度假套房</h4>
+          <p>高級設施與精緻設計，提供頂級住宿體驗。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="booking">
+    <div class="booking-banner">
+      <h3>立即開始你的旅程</h3>
+      <p>現在預訂，享受最棒的旅遊與住宿體驗</p>
+      <a href="#" class="btn">開始訂房</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 TravelGo ｜ One Page Travel Booking Website
+  </footer>
+
+</body>
+</html>
